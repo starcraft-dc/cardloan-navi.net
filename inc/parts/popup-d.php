@@ -1,6 +1,14 @@
 
 
-  <?php $isTestD = isset($_GET['test']) && $_GET['test'] == 'd'; ?>
+  <?php
+    $isTestD = isset($_GET['test']) && $_GET['test'] == 'd';
+    $class = isset($class) ? $class : '';
+    $getLinkParam = function ($postId) {
+      return function_exists('get_link_param_new')
+        ? get_link_param_new(['post_id' => $postId])
+        : get_permalink($postId);
+    };
+  ?>
 
   <!-- Dカード -->
   <div class="js-popup-ctt -d">
@@ -14,10 +22,10 @@
 
 
       <li data-content="1" class="active">
-        <h2><span>Q.</span>あなたは<br class="sp">ドコモユーザーですか？</h2>
+        <h2><span>Q.</span>ドコモユーザーですか？</h2>
         <div class="flex">
-          <button id="yes" class="next-btn next-btn__yes" data-target="2">はい</button>
-          <button id="no" class="next-btn next-btn__no" data-target="4">いいえ</button>
+          <button id="yes-1" class="next-btn next-btn__yes" data-target="2">はい</button>
+          <button id="no-1" class="next-btn next-btn__no" data-target="5">いいえ</button>
         </div>
       </li>
 
@@ -26,10 +34,10 @@
       <li data-content="2">
 
 
-        <h2><span>Q.</span><?= !$isTestD ? 'カードローンでの借入は初めてですか？' : 'あなたは30歳以上ですか？' ?></h2>
+        <h2><span>Q.</span><?= !$isTestD ? 'ドコモを利用して1年以上ですか？' : 'あなたは30歳以上ですか？' ?></h2>
         <div class="flex">
-          <button id="yes" class="next-btn next-btn__yes" data-target="3">はい</button>
-          <button id="no" class="next-btn next-btn__no" data-target="4">いいえ</button>
+          <button id="yes-2" class="next-btn next-btn__yes" data-target="3">はい</button>
+          <button id="no-2" class="next-btn next-btn__no" data-target="5">いいえ</button>
         </div>
 
       </li>
@@ -37,9 +45,19 @@
 
 
       <li data-content="3">
+        <h2><span>Q.</span>現在他社で借入していますか？</h2>
+        <div class="flex">
+          <button id="yes-3" class="next-btn next-btn__yes" data-target="5">はい</button>
+          <a id="no-3" class="next-btn next-btn__no" data-target="4" href="<?= $getLinkParam(472); ?>" target="_blank" rel="noopener">いいえ</a>
+        </div>
+      </li>
+
+
+
+      <li data-content="4">
 
         <?php $mainpost = get_post(472); if ($mainpost) : 
-          $linkMain = get_link_param_new(['post_id' => $mainpost->ID]);
+          $linkMain = $getLinkParam($mainpost->ID);
         ?>
 
         <h2 class="title">
@@ -69,12 +87,12 @@
 
 
 
-      <li data-content="4">
+      <li data-content="5">
 
 
         <?php 
           $subpost = !$isTestD ? get_post(125) : get_post(472); if ($subpost) : 
-          $linkSub = get_link_param_new(['post_id' => $subpost->ID]);
+          $linkSub = $getLinkParam($subpost->ID);
         ?>
 
         <?php if(!$isTestD) : ?>

@@ -71,7 +71,7 @@ function dsmartPopup() {
   const dPopup = document.querySelector('.js-popup-ctt.-d');
 
   const closeBtn = document.querySelector('.js-popup-ctt__close.-d');
-  const buttons = dPopup.querySelectorAll('button');
+  const buttons = dPopup.querySelectorAll('.next-btn');
   const targets = dPopup.querySelectorAll('.js-popup-ctt__inner li');
 
   // CTAボタンクリック
@@ -98,9 +98,11 @@ function dsmartPopup() {
   // YES or NO ボタンクリック
   buttons.forEach(button => {
     button.addEventListener('click', function (e) {
-      console.log(e.target.getAttribute('data-target')); //2
+      const clicked = e.currentTarget;
+      const nextTarget = clicked.getAttribute('data-target');
+      if (!nextTarget) return;
       targets.forEach(target => {
-        if (target.getAttribute('data-content') == e.target.getAttribute('data-target')) {
+        if (target.getAttribute('data-content') == nextTarget) {
           target.classList.add('active');
         } else {
           target.classList.remove('active');
