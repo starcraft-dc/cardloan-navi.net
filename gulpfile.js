@@ -64,48 +64,48 @@ const remoteDistDirCommon = remoteDistDir + '/assets/dist/_common/'
 const remoteDistDirFront = remoteDistDir + '/assets/dist/front/'
 
 const vinylFtp = () => {
-  return src(ftpUploadFiles, { buffer: false })
+  return src(ftpUploadFiles)
     .pipe(connect.newerOrDifferentSize(remoteDistDir))
     .pipe(connect.dest(remoteDistDir))
 }
 const vinylFtpLink = () => {
-  return src(ftpUploadFilesLink, { buffer: false })
+  return src(ftpUploadFilesLink)
     .pipe(connect.newerOrDifferentSize(remoteDistDirLink))
     .pipe(connect.dest(remoteDistDirLink))
 }
 const vinylFtpInc = () => {
-  return src(ftpUploadFilesInc, { buffer: false })
+  return src(ftpUploadFilesInc)
     .pipe(connect.newerOrDifferentSize(remoteDistDirInc))
     .pipe(connect.dest(remoteDistDirInc))
 }
 const vinylFtpTag = () => {
-  return src(ftpUploadFilesTag, { buffer: false })
+  return src(ftpUploadFilesTag)
     .pipe(connect.newerOrDifferentSize(remoteDistDirTag))
     .pipe(connect.dest(remoteDistDirTag))
 }
 const vinylFtpParts = () => {
-  return src(ftpUploadFilesParts, { buffer: false })
+  return src(ftpUploadFilesParts)
     .pipe(connect.newerOrDifferentSize(remoteDistDirParts))
     .pipe(connect.dest(remoteDistDirParts))
 }
 
 const vinylFtpCss = () => {
-  return src(ftpUploadFilesCss, { buffer: false })
+  return src(ftpUploadFilesCss)
   .pipe(connect.newerOrDifferentSize(remoteDistDirCss))
   .pipe(connect.dest(remoteDistDirCss))
 }
 const vinylFtpJs = () => {
-  return src(ftpUploadFilesJs, { buffer: false })
+  return src(ftpUploadFilesJs)
   .pipe(connect.newerOrDifferentSize(remoteDistDirJs))
   .pipe(connect.dest(remoteDistDirJs))
 }
 const vinylFtpCommon = () => {
-  return src(ftpUploadFilesNewCommon, { buffer: false })
+  return src(ftpUploadFilesNewCommon)
     .pipe(connect.newerOrDifferentSize(remoteDistDirCommon))
     .pipe(connect.dest(remoteDistDirCommon))
 }
 const vinylFtpFront = () => {
-  return src(ftpUploadFilesNewFront, { buffer: false })
+  return src(ftpUploadFilesNewFront)
     .pipe(connect.newerOrDifferentSize(remoteDistDirFront))
     .pipe(connect.dest(remoteDistDirFront))
 }

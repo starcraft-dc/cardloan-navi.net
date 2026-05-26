@@ -20,7 +20,14 @@
         
 					<?php if($loop == 1) : ?>
             <?php if($items > 0) : ?>
+              <?php if(is_page('first')) : ?>
+              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/first/first-rank-title-1.svg" alt="" width="600" height="200" />
+
+              <?php elseif(is_page('examination')) : ?>
+              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/examination/examination-rank-title-1.svg" alt="" width="600" height="200" />
+              <?php else : ?>
               <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?=$slug?>/<?=$slug?>-rank-title-<?= $items; ?>.svg" alt="" width="600" height="200" />
+              <?php endif; ?>
             <?php endif; ?>
 					<?php endif; ?>
 
