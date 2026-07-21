@@ -9,19 +9,41 @@
   $link = get_field('url', $postID); 
   $catch = get_field('catch', $postID);
   $sup = get_field('sup-button', $postID);
+  $page_param = isset($_GET['pg']) && !is_array($_GET['pg']) ? sanitize_key(wp_unslash($_GET['pg'])) : '';
+  $ad_param = isset($_GET['ad']) && !is_array($_GET['ad']) ? sanitize_key(wp_unslash($_GET['ad'])) : '';
+  $gkw_num = $ad_param === 'gkw' ? get_gkw_campaign_num(null, $page_param === 'bank') : '';
 
   
-  if(isset($_GET['pg'])) {
-    $link = !empty(get_field('url-'.$_GET['pg'], $postID)) ? get_field('url-'.$_GET['pg'], $postID) : $link;
-    if(isset($_GET['ad'])) {
-      if(!empty(get_field('url-'.$_GET['pg'].'_'.$_GET['ad'], $postID))) {
-        $link = get_field('url-'.$_GET['pg'].'_'.$_GET['ad'], $postID);
+  if($page_param !== '') {
+    $page_link = get_field('url-'.$page_param, $postID);
+    $link = !empty($page_link) ? $page_link : $link;
+    if($ad_param !== '') {
+      $gkw_field_name = $page_param === 'bank' && in_array($gkw_num, array('011', '012', '013'), true)
+        ? 'url-bank_gkw_'.$gkw_num
+        : '';
+      $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
+      $ad_link = get_field('url-'.$page_param.'_'.$ad_param, $postID);
+
+      if(!empty($gkw_link)) {
+        $link = $gkw_link;
+      } elseif(!empty($ad_link)) {
+        $link = $ad_link;
       } else {
-        $link = !empty(get_field('url-'.$_GET['pg'], $postID)) ? get_field('url-'.$_GET['pg'], $postID) : $link;
+        $link = !empty($page_link) ? $page_link : $link;
       }
     }
-  } elseif (isset($_GET['ad'])) {
-    $link = !empty(get_field('url-'.$_GET['ad'], $postID)) ? get_field('url-'.$_GET['ad'], $postID) : $link;
+  } elseif ($ad_param !== '') {
+    $gkw_field_name = in_array($gkw_num, array('001', '002', '003', '004', '005', '006', '007'), true)
+      ? 'url-gkw_'.$gkw_num
+      : '';
+    $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
+    $ad_link = get_field('url-'.$ad_param, $postID);
+
+    if(!empty($gkw_link)) {
+      $link = $gkw_link;
+    } elseif(!empty($ad_link)) {
+      $link = $ad_link;
+    }
   }
 
   $queryString = $_SERVER['QUERY_STRING'];

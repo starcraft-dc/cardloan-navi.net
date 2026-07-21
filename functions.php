@@ -155,6 +155,35 @@ function get_icon_maru($data) {
   return 'icon-maru_'.$data.'.svg';
 }
 
+function get_gkw_campaign_num($value = null, $is_bank = null) {
+  if ($value === null) {
+    if (!isset($_GET['num']) || is_array($_GET['num'])) {
+      return '';
+    }
+    $value = wp_unslash($_GET['num']);
+  }
+
+  if (!is_scalar($value)) {
+    return '';
+  }
+
+  $value = trim((string) $value);
+  if (!preg_match('/^\d{1,3}$/', $value)) {
+    return '';
+  }
+
+  $number = str_pad($value, 3, '0', STR_PAD_LEFT);
+  if ($is_bank === true) {
+    $allowed_numbers = array('011', '012', '013');
+  } elseif ($is_bank === false) {
+    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007');
+  } else {
+    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '011', '012', '013');
+  }
+
+  return in_array($number, $allowed_numbers, true) ? $number : '';
+}
+
 
 
 
@@ -167,11 +196,18 @@ function get_link_param($args = []) {
   $params = [
     'item' => $post_name,
   ];
-  if (is_page('bank') || is_page('bank-cardloan') || (isset($_GET['bank']) )) {
+  $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
+  if ($is_bank_context) {
     $params['pg'] = 'bank';
   } 
-  if (isset($_GET['ad'])) {
-    $params['ad'] = $_GET['ad'];
+  if (isset($_GET['ad']) && !is_array($_GET['ad'])) {
+    $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
+    if ($params['ad'] === 'gkw') {
+      $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+      if ($gkw_num !== '') {
+        $params['num'] = $gkw_num;
+      }
+    }
   }
   $url = home_url('/link?' . http_build_query($params));
   
@@ -187,11 +223,18 @@ function get_link_param_new($args = []) {
     'item' => $post_name,
   ];
 
-  if (is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank'])) {
+  $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
+  if ($is_bank_context) {
     $params['pg'] = 'bank';
   }
-  if (isset($_GET['ad'])) {
-    $params['ad'] = $_GET['ad'];
+  if (isset($_GET['ad']) && !is_array($_GET['ad'])) {
+    $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
+    if ($params['ad'] === 'gkw') {
+      $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+      if ($gkw_num !== '') {
+        $params['num'] = $gkw_num;
+      }
+    }
   }
 
   $url = home_url('/link?' . http_build_query($params));
@@ -309,14 +352,23 @@ add_shortcode('one_week_ago', 'get_one_week_ago_date');
 
 // 各ページ移動リンク先パラメータ取得
 function pageLinkParameter() {
-  $allowed_params = ['ad', 't', 'v'];
-  $params = array_filter(
-    array_map(
-      fn($param) => isset($_GET[$param]) ? $param . '=' . $_GET[$param] : null,
-      $allowed_params
-    )
-  );
-  return $params ? '?' . implode('&', $params) : '';
+  $params = array();
+
+  foreach (array('ad', 't', 'v') as $param) {
+    if (isset($_GET[$param]) && !is_array($_GET[$param])) {
+      $params[$param] = sanitize_text_field(wp_unslash($_GET[$param]));
+    }
+  }
+
+  if (($params['ad'] ?? '') === 'gkw') {
+    $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
+    $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+    if ($gkw_num !== '') {
+      $params['num'] = $gkw_num;
+    }
+  }
+
+  return $params ? '?' . http_build_query($params) : '';
 }
 function removeParams($url) {
   $parsed_url = parse_url($url);
@@ -499,9 +551,5 @@ global $loop;
 $loop = 1;
 global $pickupNum;
 $pickupNum = 1;
-
-
-
-
 
 

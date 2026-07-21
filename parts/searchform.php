@@ -22,6 +22,12 @@
           <?php if (isset($_GET['ad'])) : ?>
             <input type="hidden" name="ad" value="<?php echo $_GET['ad']; ?>">
           <?php endif; ?>
+          <?php if (isset($_GET['ad'], $_GET['num']) && !is_array($_GET['ad']) && sanitize_key(wp_unslash($_GET['ad'])) === 'gkw') : ?>
+            <?php $gkw_num = get_gkw_campaign_num(null, is_page('bank-cardloan') || is_page('bank') || isset($_GET['bank'])); ?>
+            <?php if ($gkw_num !== '') : ?>
+              <input type="hidden" name="num" value="<?= esc_attr($gkw_num) ?>">
+            <?php endif; ?>
+          <?php endif; ?>
 
 
           
