@@ -174,11 +174,11 @@ function get_gkw_campaign_num($value = null, $is_bank = null) {
 
   $number = str_pad($value, 3, '0', STR_PAD_LEFT);
   if ($is_bank === true) {
-    $allowed_numbers = array('011', '012', '013');
+    $allowed_numbers = array('008', '009', '011', '012', '013', '014', '015', '016');
   } elseif ($is_bank === false) {
-    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007');
+    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010');
   } else {
-    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '011', '012', '013');
+    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013', '014', '015', '016');
   }
 
   return in_array($number, $allowed_numbers, true) ? $number : '';

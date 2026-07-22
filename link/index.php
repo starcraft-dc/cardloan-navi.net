@@ -18,7 +18,7 @@
     $page_link = get_field('url-'.$page_param, $postID);
     $link = !empty($page_link) ? $page_link : $link;
     if($ad_param !== '') {
-      $gkw_field_name = $page_param === 'bank' && in_array($gkw_num, array('011', '012', '013'), true)
+      $gkw_field_name = $page_param === 'bank' && in_array($gkw_num, array('008', '009', '011', '012', '013', '014', '015', '016'), true)
         ? 'url-bank_gkw_'.$gkw_num
         : '';
       $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
@@ -33,7 +33,7 @@
       }
     }
   } elseif ($ad_param !== '') {
-    $gkw_field_name = in_array($gkw_num, array('001', '002', '003', '004', '005', '006', '007'), true)
+    $gkw_field_name = in_array($gkw_num, array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010'), true)
       ? 'url-gkw_'.$gkw_num
       : '';
     $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
