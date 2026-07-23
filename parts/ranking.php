@@ -1,38 +1,105 @@
-<section id="section-sp-toprank" class="<?= $loop === 2 ? 
+<section id="section-sp-toprank" class="<?= $loop === 2 ?
 '2' : '' ?> p-ranking <?= $loop === 1 ? '-top' : '-bottom' ?> <?= '-'.$slug ?>">
-	
-	
+
+
 		<hgroup class="p-ranking__head <?= isset($_GET['ad']) && $_GET['ad'] == 'gss3' ? 'gss3-padding' : '' ?> <?= '-'.$slug ?>">
-		
+
+      <?php
+        $rankTitleImage = static function (array $candidates): string {
+          $themeDirectory = get_template_directory();
+
+          foreach ($candidates as $candidate) {
+            if (is_file($themeDirectory . '/images/' . $candidate)) {
+              return $candidate;
+            }
+          }
+
+          return $candidates[0];
+        };
+      ?>
+
       <?php if(is_page('v3')) : ?>
 
         <?php if($rankingNum == 2) : ?>
 
-          <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/top-rank2-title-<?= $items; ?>_v3-<?= $price; ?>.svg" alt="" class="" width="100" height="100" loading="lazy" />
+          <?php $rankTitle = $rankTitleImage([
+            "top-rank2-title-{$items}_v3-{$price}.svg",
+            "top-rank-title-{$items}_v3-{$price}.svg",
+            'top-rank-title_v3-3.svg',
+            'top-rank-title.svg',
+          ]); ?>
+
+          <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" class="" width="100" height="100" loading="lazy" />
 
         <?php else : ?>
-          
-          <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/top-rank-title-<?= $items; ?>_v3-<?= $price; ?>.svg" alt="" class="" width="100" height="100" loading="lazy" />
+
+          <?php $rankTitle = $rankTitleImage([
+            "top-rank-title-{$items}_v3-{$price}.svg",
+            'top-rank-title_v3-3.svg',
+            'top-rank-title.svg',
+          ]); ?>
+
+          <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" class="" width="100" height="100" loading="lazy" />
 
         <?php endif; ?>
 
       <?php elseif(is_page('speed') || is_page('hidden') || is_page('examination') || is_page('license') || is_page('first') || is_page('interest')  || is_page('woman')  || is_page('housewife') || is_page('summary') || is_page('bank') || is_page('bank-cardloan')) : ?>
-        
+
 					<?php if($loop == 1) : ?>
             <?php if($items > 0) : ?>
               <?php if(is_page('first')) : ?>
-              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/first/first-rank-title-1.svg" alt="" width="600" height="200" />
+              <?php $rankTitle = $rankTitleImage(['first/first-rank-title-1.svg', 'first/first-rank-title1.svg']); ?>
+              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" width="600" height="200" />
 
               <?php elseif(is_page('examination')) : ?>
-              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/examination/examination-rank-title-1.svg" alt="" width="600" height="200" />
+              <?php $rankTitle = $rankTitleImage(['examination/examination-rank-title-1.svg', 'examination/examination-rank-title1.svg']); ?>
+              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" width="600" height="200" />
               <?php else : ?>
-              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?=$slug?>/<?=$slug?>-rank-title-<?= $items; ?>.svg" alt="" width="600" height="200" />
+              <?php $rankTitleMissing = false; ?>
+              <?php if(is_page('bank-cardloan')) : ?>
+                <?php $rankTitle = "{$slug}/{$slug}-rank-title-{$items}.svg"; ?>
+                <?php $rankTitleMissing = !is_file(get_template_directory() . '/images/' . $rankTitle); ?>
+              <?php elseif(in_array($slug, ['bank', 'license', 'interest'], true)) : ?>
+                <?php $rankTitle = $rankTitleImage([
+                  "{$slug}/{$slug}-rank-title2-{$items}.svg",
+                  "{$slug}/{$slug}-rank-title-{$items}.svg",
+                  "{$slug}/{$slug}-rank-title1.svg",
+                  "{$slug}/{$slug}-rank-title-1.svg",
+                  "{$slug}/{$slug}-rank-title2.svg",
+                  "{$slug}/{$slug}-rank-title.svg",
+                ]); ?>
+              <?php else : ?>
+                <?php $rankTitle = $rankTitleImage([
+                  "{$slug}/{$slug}-rank-title-{$items}.svg",
+                  "{$slug}/{$slug}-rank-title1.svg",
+                  "{$slug}/{$slug}-rank-title-1.svg",
+                  "{$slug}/{$slug}-rank-title.svg",
+                ]); ?>
+              <?php endif; ?>
+              <?php if(!$rankTitleMissing) : ?>
+              <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" width="600" height="200" />
+              <?php endif; ?>
               <?php endif; ?>
             <?php endif; ?>
 					<?php endif; ?>
 
 					<?php if($loop == 2) : ?>
-						<img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?=$slug?>/<?=$slug?>-rank-title2-<?= $items2; ?>.svg" alt="" width="600" height="200" />
+              <?php $rankTitleMissing = false; ?>
+              <?php if(is_page('bank-cardloan')) : ?>
+                <?php $rankTitle = "{$slug}/{$slug}-rank-title2-{$items2}.svg"; ?>
+                <?php $rankTitleMissing = !is_file(get_template_directory() . '/images/' . $rankTitle); ?>
+              <?php else : ?>
+              <?php $rankTitle = $rankTitleImage([
+                "{$slug}/{$slug}-rank-title2-{$items2}.svg",
+                "{$slug}/{$slug}-rank-title1.svg",
+                "{$slug}/{$slug}-rank-title-1.svg",
+                "{$slug}/{$slug}-rank-title2.svg",
+                "{$slug}/{$slug}-rank-title.svg",
+              ]); ?>
+						<?php endif; ?>
+						<?php if(!$rankTitleMissing) : ?>
+						<img src="<?= esc_url( get_template_directory_uri() ); ?>/images/<?= esc_attr($rankTitle); ?>" alt="" width="600" height="200" />
+						<?php endif; ?>
 					<?php endif; ?>
 
       <?php else : ?>
@@ -44,14 +111,14 @@
       <?php endif; ?>
 
       <?php endif; ?>
-		
+
 		</hgroup>
 
 
 
 		<ul class="p-ranking__main <?= $loop === 1 ? '-top' : '-bottom' ?> <?='-'.$slug?>">
 
-			<?php 
+			<?php
 
 
 				if($loop == 1) {
@@ -59,15 +126,15 @@
 				} elseif($loop == 2) {
 					$rank_objects = $rank_objects2;
 				}
-				if( $rank_objects ): 
-					foreach( $rank_objects as $key =>$post): 
-					setup_postdata($post); 
+				if( $rank_objects ):
+					foreach( $rank_objects as $key =>$post):
+					setup_postdata($post);
 					include  "fields.php";
 					if (
-						(isset($_GET['test']) && (get_post_status($post->ID) == 'publish' || get_post_status($post->ID) == 'private')) 
+						(isset($_GET['test']) && (get_post_status($post->ID) == 'publish' || get_post_status($post->ID) == 'private'))
 						|| (is_page('view') && (get_post_status($post->ID) == 'publish' || get_post_status($post->ID) == 'private'))
 						|| (!isset($_GET['test']) && !is_page('view') && get_post_status($post->ID) == 'publish')
-					) : 
+					) :
 
 
 
@@ -88,12 +155,12 @@
 					?>
 					<div class="rank-speed-obi"><?= $loanSpeedChoices[$loanSpeedKey] ?? '' ?></div>
 				<?php endif; ?>
-				
+
 
 
 				<div class="item-head">
 
-					<?php 
+					<?php
 						if(!empty($groupTag)) : ?>
 						<div class="item-head__company -pattern2">
 							<p><?= $groupTag; ?></p>
@@ -125,7 +192,7 @@
 
 
 
-          <?php 
+          <?php
 
             if(isset($_GET['bank']) || is_page('bank') || is_page('bank-cardloan') ) {
               if(!empty(get_field('catch-bank'))) {
@@ -145,7 +212,7 @@
 				</div>
 
 
-				
+
 				<div class="item-infor">
 
 					<div class="item-infor__thumb">
@@ -181,7 +248,7 @@
 
 
 				<div class="item-spec">
-					
+
 					<table class="c-table table-ranking">
 
 						<tr class="tb-row1">
@@ -189,9 +256,9 @@
 							<th>実質年率</th>
 
 							<td style="background-image:url(<?= esc_url( get_template_directory_uri() ); ?>/images/icons/maru-0<?= $interestRow <= 3 || $post->post_title == 'プロミス' ? '1' : '2'; ?>.svg);">
-								<?php 
-									$firstFont = ''; 
-									if($post->post_title =='りそなプレミアムカードローン') { $firstFont = '年'; } 
+								<?php
+									$firstFont = '';
+									if($post->post_title =='りそなプレミアムカードローン') { $firstFont = '年'; }
 
 									/** 実質年率分岐 */
 									if(!empty(($interestRow && $interestHigh))) {
@@ -202,7 +269,7 @@
 										} elseif(empty($interestRow)) {
 											echo "{$interestHigh}%";
 										}
-									} 
+									}
 
 									if($interestSup) { echo '<small class="small">'.$interestSup.'</small>'; }
 								?>
@@ -211,11 +278,11 @@
 							<th><?= $post->ID == 2605 ? 'ご利用限度額' : '借入限度額' ?></th>
 
 							<td style="background-image:url(<?= esc_url( get_template_directory_uri() ); ?>/images/icons/maru-0<?= $limit <= 3 ? '1' : '2'; ?>.svg);">
-								<?php 
+								<?php
                   if($limitText) {
                     echo $limitText;
                   } else {
-                    limit($limit, $ufj ? '最高' : '最大'); 
+                    limit($limit, $ufj ? '最高' : '最大');
                   }
                   if($limitSup) {
                     echo '<small class="small">'.$limitSup.'</small>';
@@ -242,7 +309,7 @@
 							?>
 
 							<td <?php tableMaru($examSpeedKey) ?>>
-								<?php 
+								<?php
                   echo $promise ? '<span class="red">' : '';
                   echo get_field('rank-table_exam-speed_text') ?: ($examSpeedChoices[$examSpeedKey] ?? '');
                   echo $promise ? '</span>' : '';
@@ -251,7 +318,7 @@
 								?>
 							</td>
 
-							
+
 
 							<th>融資時間</th>
 							<?php
@@ -261,7 +328,7 @@
 							?>
 
 							<td <?php tableMaru($loanSpeedKey) ?>>
-							
+
 								<?php
                   echo $promise ? '<span class="red">' : '';
                   echo get_field('rank-table_loan-speed_text') ?: ($loanSpeedChoices[$loanSpeedKey] ?? '');
@@ -281,11 +348,11 @@
 
 							<th>利用可能<br>コンビニ</th>
 							<td>
-								<?php 
+								<?php
 									if($conv) {
-										foreach($conv as $c) { 
+										foreach($conv as $c) {
 											echo get_con_img($c);
-										} 
+										}
 									} else {
 										echo "-";
 									}
@@ -294,7 +361,7 @@
 							</td>
 
 							<th>収入証明書</th>
-							
+
 							<td style="background-image:url(<?= esc_url( get_template_directory_uri() ); ?>/images/icons/maru-0<?= $syoumeisyo == '不要' ? '1' : ($syoumeisyo == '必要' ? '3' : '2'); ?>.svg);">
 							<?= $syoumeisyo; ?>
               <?php if($syoumeisyoSup) { echo '<small class="small">'.$syoumeisyoSup.'</small>'; } ?>
@@ -307,7 +374,7 @@
 
 				</div>
 
-			
+
 
 
 
@@ -319,7 +386,7 @@
 						$tagsToRender = array_map(
 							function($t) use ($tag) {
 								return [$t, in_array($t, $tag)];
-							}, 
+							},
 							$tagArray
 						);
 
@@ -341,7 +408,7 @@
 					<div class="item-timer <?= isset($_GET['ad']) && $_GET['ad'] === "video" ? '-video' : '' ?>">
 
 						<div class="timer">
-							
+
 							<span class="timer-title bold">
 								<?= !isset($_GET['ad']) || $_GET['ad'] !== "video" ? "本日借り入れるなら" : "本日現金を引き出すなら" ?>
 							</span>
@@ -361,7 +428,7 @@
 
 
 				<!-- item-btn start -->
-				<div class="item-btn c-button -ranking <?= (is_page('v2') || (isset($_GET['ad']) && strpos($_GET['ad'], '2')))  ? ' v2-rank-btn-group'  : (is_page('v3')  ? ' v3-rank-btn-group' : '') 
+				<div class="item-btn c-button -ranking <?= (is_page('v2') || (isset($_GET['ad']) && strpos($_GET['ad'], '2')))  ? ' v2-rank-btn-group'  : (is_page('v3')  ? ' v3-rank-btn-group' : '')
 				?>">
 
 					<?= get_popup_link() ?>
@@ -399,7 +466,7 @@
 						<button class="acc-btn" id="js-acc-btn" @click="clickedAccBtn(<?= $key ?>)"><span><?=$post->post_title == "レイク" ? "注意点と貸付条件について" : "注釈を見る" ?></span>
 						<span class="arrow" :class="{'open': isSupAcc[<?= $key ?>]}"></span></button>
 
-            
+
 						<small class="small acc-ctt" id="js-acc-ctt" :class="{'open': isSupAcc[<?= $key ?>]}"><?= get_field('sup-acc') ?></small>
 
 					</div>
@@ -415,4 +482,4 @@
   </section>
 
 
-    
+
