@@ -51,6 +51,14 @@
           <tbody>
 
           <?php
+					$withoutInlineSpeedNote = static function ($speedText): string {
+						if (!is_string($speedText)) {
+							return '';
+						}
+
+						return preg_replace('~<small\\b[^>]*\\bclass=(["\\\'])[^"\\\']*\\bspeed-note\\b[^"\\\']*\\1[^>]*>.*?</small>~is', '', $speedText) ?? $speedText;
+					};
+
 						if( $rank_objects ): $i = 0; foreach( $rank_objects as $post): 
 						$i++;
 						include "fields.php";
@@ -77,12 +85,14 @@
                 $fieldObj = get_field_object("rank-table_exam-speed_2024");
                 $examSpeedChoices = $fieldObj['choices'] ?? [];
                 $examSpeedKey = get_field("rank-table_exam-speed_2024");
+								$examSpeedText = get_field('rank-table_exam-speed_text');
+								$examSpeedDisplay = $examSpeedText ? $withoutInlineSpeedNote($examSpeedText) : ($examSpeedChoices[$examSpeedKey] ?? '');
                 $promise = $post->ID == 119;
               ?>
 
               <td <?php tableMaru($examSpeedKey) ?>>
                 <?= $promise ? '<span class="red">' : '' ?> 
-                <?= get_field('rank-table_exam-speed_text') ?: ($examSpeedChoices[$examSpeedKey] ?? ''); ?>
+								<?= $examSpeedDisplay ?>
                 <?= $promise ? '</span>' : '' ?> 
                 <?= $examSpeedSupHikaku ? '<small class="small">'.$examSpeedSupHikaku.'</small>' : '<small class="small">'.$examSpeedSup.'</small>'; ?>
               </td>
@@ -92,10 +102,12 @@
                 $fieldObj = get_field_object("rank-table_loan-speed_2024");
                 $loanSpeedChoices = $fieldObj['choices'] ?? [];
                 $loanSpeedKey = get_field("rank-table_loan-speed_2024");
+								$loanSpeedText = get_field('rank-table_loan-speed_text');
+								$loanSpeedDisplay = $loanSpeedText ? $withoutInlineSpeedNote($loanSpeedText) : ($loanSpeedChoices[$loanSpeedKey] ?? '');
               ?>
               <td <?php tableMaru($loanSpeedKey) ?>>
                 <?= $promise ? '<span class="red">' : '' ?> 
-                <?= get_field('rank-table_loan-speed_text') ?: ($loanSpeedChoices[$loanSpeedKey] ?? ''); ?>
+								<?= $loanSpeedDisplay ?>
                 <?= $promise ? '</span>' : '' ?> 
                 <?= $loanSpeedSupHikaku ? '<small class="small">'.$loanSpeedSupHikaku.'</small>' : '<small class="small">'.$loanSpeedSup.'</small>'; ?>
               </td>
