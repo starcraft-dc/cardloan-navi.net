@@ -284,7 +284,17 @@
 
 
 
-							<tr class="tb-row2">
+								<?php
+									$withoutInlineSpeedNote = static function ($speedText): string {
+										if (!is_string($speedText)) {
+											return '';
+										}
+
+										return preg_replace('~<small\\b[^>]*\\bclass=(["\\\'])[^"\\\']*\\bspeed-note\\b[^"\\\']*\\1[^>]*>.*?</small>~is', '', $speedText) ?? $speedText;
+									};
+								?>
+
+								<tr class="tb-row2">
 								<th>
 									<?=$post->post_title == '東京スター銀行　おまとめローン' ? '仮審査期間' : '審査時間'?>
 								</th>
@@ -294,12 +304,13 @@
 									$examSpeedChoices = $fieldObj['choices'] ?? [];
 									$examSpeedKey = get_field("rank-table_exam-speed_2024");
 									$examSpeedText = get_field("rank-table_exam-speed_text");
+									$examSpeedDisplay = $examSpeedText ? $withoutInlineSpeedNote($examSpeedText) : ($examSpeedChoices[$examSpeedKey] ?? '');
 									$promise = $post->ID == 119;
 								?>
 
 								<td <?php tableMaru($examSpeedKey) ?>>
                   <?= $promise ? '<span class="red">' : '' ?> 
-										<?= $post->post_title == '東京スター銀行　おまとめローン' ? '最短2日<small class="small">※3</small>' : ($examSpeedText ?: ($examSpeedChoices[$examSpeedKey] ?? '')) ?>
+											<?= $post->post_title == '東京スター銀行　おまとめローン' ? '最短2日<small class="small">※3</small>' : $examSpeedDisplay ?>
                   <?= $promise ? '</span>' : '' ?> 
 									<?php echo $examSpeedSup ? '<small class="small">'.$examSpeedSup.'</small>' : ''; ?>
 								</td>
@@ -312,12 +323,13 @@
 									$loanSpeedChoices = $fieldObj['choices'] ?? [];
 									$loanSpeedKey = get_field("rank-table_loan-speed_2024");
 									$loanSpeedText = get_field("rank-table_loan-speed_text");
+									$loanSpeedDisplay = $loanSpeedText ? $withoutInlineSpeedNote($loanSpeedText) : ($loanSpeedChoices[$loanSpeedKey] ?? '');
 								?>
 
 								<td <?php tableMaru($loanSpeedKey) ?>>
 								
 									<?= $promise ? '<span class="red">' : '' ?> 
-										<?= $loanSpeedText ?: ($loanSpeedChoices[$loanSpeedKey] ?? '') ?>
+											<?= $loanSpeedDisplay ?>
 									<?= $promise ? '</span>' : '' ?> 
 									<?php echo $loanSpeedSup ? '<small class="small">'.$loanSpeedSup.'</small>' : ''; ?>
 
