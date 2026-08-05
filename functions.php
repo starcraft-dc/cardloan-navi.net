@@ -144,6 +144,18 @@ function my_admin_style() {
     flex-wrap: wrap!important;
     gap: 2px;
   }
+  .acf-field[data-key="field_688f0003examaccordion"] > .acf-accordion-title {
+    background: #fff0f2;
+    border-left: 5px solid #d94b64;
+  }
+  .acf-field[data-key="field_688f0004loanaccordion"] > .acf-accordion-title {
+    background: #eef6ff;
+    border-left: 5px solid #3978b8;
+  }
+  .acf-field[data-key="field_688f0003examaccordion"] > .acf-accordion-title label,
+  .acf-field[data-key="field_688f0004loanaccordion"] > .acf-accordion-title label {
+    font-weight: 700;
+  }
   </style>'.PHP_EOL;
 }
 add_action('admin_print_styles', 'my_admin_style');
@@ -551,5 +563,4 @@ global $loop;
 $loop = 1;
 global $pickupNum;
 $pickupNum = 1;
-
 
