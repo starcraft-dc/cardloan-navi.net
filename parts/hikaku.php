@@ -51,14 +51,6 @@
           <tbody>
 
           <?php
-					$withoutInlineSpeedNote = static function ($speedText): string {
-						if (!is_string($speedText)) {
-							return '';
-						}
-
-						return preg_replace('~<small\\b[^>]*\\bclass=(["\\\'])[^"\\\']*\\bspeed-note\\b[^"\\\']*\\1[^>]*>.*?</small>~is', '', $speedText) ?? $speedText;
-					};
-
 						if( $rank_objects ): $i = 0; foreach( $rank_objects as $post): 
 						$i++;
 						include "fields.php";
@@ -86,7 +78,7 @@
                 $examSpeedChoices = $fieldObj['choices'] ?? [];
                 $examSpeedKey = get_field("rank-table_exam-speed_2024");
 								$examSpeedText = get_field('rank-table_exam-speed_text');
-								$examSpeedDisplay = $examSpeedText ? $withoutInlineSpeedNote($examSpeedText) : ($examSpeedChoices[$examSpeedKey] ?? '');
+								$examSpeedDisplay = $examSpeedText ?: ($examSpeedChoices[$examSpeedKey] ?? '');
                 $promise = $post->ID == 119;
               ?>
 
@@ -103,7 +95,7 @@
                 $loanSpeedChoices = $fieldObj['choices'] ?? [];
                 $loanSpeedKey = get_field("rank-table_loan-speed_2024");
 								$loanSpeedText = get_field('rank-table_loan-speed_text');
-								$loanSpeedDisplay = $loanSpeedText ? $withoutInlineSpeedNote($loanSpeedText) : ($loanSpeedChoices[$loanSpeedKey] ?? '');
+								$loanSpeedDisplay = $loanSpeedText ?: ($loanSpeedChoices[$loanSpeedKey] ?? '');
               ?>
               <td <?php tableMaru($loanSpeedKey) ?>>
                 <?= $promise ? '<span class="red">' : '' ?> 

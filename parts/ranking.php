@@ -296,16 +296,6 @@
 
 
 
-						<?php
-							$withoutInlineSpeedNote = static function ($speedText): string {
-								if (!is_string($speedText)) {
-									return '';
-								}
-
-								return preg_replace('~<small\\b[^>]*\\bclass=(["\\\'])[^"\\\']*\\bspeed-note\\b[^"\\\']*\\1[^>]*>.*?</small>~is', '', $speedText) ?? $speedText;
-							};
-						?>
-
 						<tr class="tb-row2">
 							<th>
 								<?=$post->post_title == '東京スター銀行　おまとめローン' ? '仮審査期間' : '審査時間'?>
@@ -316,7 +306,7 @@
 								$examSpeedChoices = $fieldObj['choices'] ?? [];
                 $examSpeedKey = get_field("rank-table_exam-speed_2024");
 								$examSpeedText = get_field('rank-table_exam-speed_text');
-								$examSpeedDisplay = $examSpeedText ? $withoutInlineSpeedNote($examSpeedText) : ($examSpeedChoices[$examSpeedKey] ?? '');
+								$examSpeedDisplay = $examSpeedText ?: ($examSpeedChoices[$examSpeedKey] ?? '');
                 $promise = $post->ID == 119;
 
 							?>
@@ -339,7 +329,7 @@
 								$loanSpeedChoices = $fieldObj['choices'] ?? [];
                 $loanSpeedKey = get_field("rank-table_loan-speed_2024");
 								$loanSpeedText = get_field('rank-table_loan-speed_text');
-								$loanSpeedDisplay = $loanSpeedText ? $withoutInlineSpeedNote($loanSpeedText) : ($loanSpeedChoices[$loanSpeedKey] ?? '');
+								$loanSpeedDisplay = $loanSpeedText ?: ($loanSpeedChoices[$loanSpeedKey] ?? '');
 							?>
 
 							<td <?php tableMaru($loanSpeedKey) ?>>
@@ -495,4 +485,3 @@
 		</ul>
 
   </section>
-
