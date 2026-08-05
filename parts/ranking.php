@@ -152,8 +152,9 @@
 						$fieldObj = get_field_object("rank-table_loan-speed_2024");
 						$loanSpeedChoices = $fieldObj['choices'] ?? [];
 						$loanSpeedKey = get_field("rank-table_loan-speed_2024");
+						$loanSpeedText = get_field("rank-table_loan-speed_text");
 					?>
-					<div class="rank-speed-obi"><?= $loanSpeedChoices[$loanSpeedKey] ?? '' ?></div>
+					<div class="rank-speed-obi"><?= $loanSpeedText ?: ($loanSpeedChoices[$loanSpeedKey] ?? '') ?></div>
 				<?php endif; ?>
 
 
@@ -480,6 +481,5 @@
 		</ul>
 
   </section>
-
 
 
