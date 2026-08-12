@@ -35,7 +35,7 @@
 
 						
 						<?php if(!isset($_GET['ad']) || !strpos($_GET['ad'], '2')) : ?>
-							<p class="sub"><?= isset($_GET['v']) && $_GET['v'] == 2 ? '当サイトでみんなが選ぶ' : 'すべての条件を満たした' ?></p>
+							<p class="sub"><?= cardloan_navi_is_versioned_top() ? '当サイトでみんなが選ぶ' : 'すべての条件を満たした' ?></p>
 						<?php endif; ?>
 
 

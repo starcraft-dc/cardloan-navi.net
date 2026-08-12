@@ -397,14 +397,23 @@ function removeParams($url) {
 
 // 👑 ランクオブジェクト取得 👑 
 
+function cardloan_navi_get_top_version() {
+  if (!isset($_GET['v']) || is_array($_GET['v'])) {
+    return '';
+  }
+
+  return sanitize_text_field(wp_unslash($_GET['v']));
+}
+
+function cardloan_navi_is_versioned_top() {
+  return in_array(cardloan_navi_get_top_version(), ['2', '3'], true);
+}
+
 function get_rank_obj() {
   global $post;
   $slug = $post->post_name;
-  $rank_version = '';
-  if (isset($_GET['v']) && !is_array($_GET['v'])) {
-    $rank_version = sanitize_text_field(wp_unslash($_GET['v']));
-  }
-  $has_rank_version = in_array($rank_version, ['2', '3'], true);
+  $rank_version = cardloan_navi_get_top_version();
+  $has_rank_version = cardloan_navi_is_versioned_top();
 
   $rank_obj = $has_rank_version ? get_field("ranking_v{$rank_version}", $post->ID) : get_field("ranking", $post->ID);
   $rank_obj2 = get_field("ranking2", $post->ID);

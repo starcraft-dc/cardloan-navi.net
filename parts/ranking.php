@@ -104,7 +104,7 @@
 
       <?php else : ?>
 
-      <?php if(isset($_GET['v']) && $_GET['v'] == 2) : ?>
+      <?php if(cardloan_navi_is_versioned_top()) : ?>
         <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/top-rank-title_v2.svg" alt="" width="600" height="200" />
       <?php else : ?>
 			<img src="https://cardloan-navi.net/wp-content/uploads/2025/08/top-rank-title-rs-1.webp" alt="最短20分！すぐに借りたい方へ本当におすすめのカードローン" class="" width="100" height="100" />

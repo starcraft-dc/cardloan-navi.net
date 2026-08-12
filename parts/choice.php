@@ -3,7 +3,7 @@
 
       <hgroup class="p-choice__head">
         <figure>
-          <?php if(isset($_GET['v']) && $_GET['v'] == 2) : ?>
+          <?php if(cardloan_navi_is_versioned_top()) : ?>
             <img src="<?= esc_url( get_template_directory_uri() ); ?>/assets/dist/front/top-choice-title_v2.svg" alt="" width="100" height="100" loading="lazy">
           <?php else : ?>
             <img src="<?= esc_url( get_template_directory_uri() ); ?>/images/top-choice-title.svg" alt="" width="100" height="100" loading="lazy">
@@ -57,7 +57,7 @@
               ]
             ];
 
-            $choiceArray = isset($_GET['v']) && $_GET['v'] == 2 ? $choiceArrayV2 : $choiceArray;
+            $choiceArray = cardloan_navi_is_versioned_top() ? $choiceArrayV2 : $choiceArray;
         ?>
 
 

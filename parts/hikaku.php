@@ -11,7 +11,7 @@
 
         </figure>
 
-        <?php if(!(isset($_GET['v']) && $_GET['v'] == 2)) : ?>
+        <?php if(!cardloan_navi_is_versioned_top()) : ?>
 
         <dl class="p-hikaku__head__timer title-timer">
           
