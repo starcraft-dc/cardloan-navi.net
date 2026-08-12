@@ -400,7 +400,13 @@ function removeParams($url) {
 function get_rank_obj() {
   global $post;
   $slug = $post->post_name;
-  $rank_obj = isset($_GET['v']) && $_GET['v'] == 2 ? get_field("ranking_v{$_GET['v']}", $post->ID) : get_field("ranking", $post->ID);
+  $rank_version = '';
+  if (isset($_GET['v']) && !is_array($_GET['v'])) {
+    $rank_version = sanitize_text_field(wp_unslash($_GET['v']));
+  }
+  $has_rank_version = in_array($rank_version, ['2', '3'], true);
+
+  $rank_obj = $has_rank_version ? get_field("ranking_v{$rank_version}", $post->ID) : get_field("ranking", $post->ID);
   $rank_obj2 = get_field("ranking2", $post->ID);
   
   if(!is_front_page()) {
@@ -412,8 +418,8 @@ function get_rank_obj() {
   } else {
     if(isset($_GET['test'])) {
       $rank_obj = get_field("ranking_test", $post->ID);
-      if(isset($_GET['v']) && $_GET['v'] == 2) {
-        $rank_obj = get_field("ranking_v{$_GET['v']}_test", $post->ID);
+      if($has_rank_version) {
+        $rank_obj = get_field("ranking_v{$rank_version}_test", $post->ID);
       }
       // $rank_obj2 = get_field("ranking-".$slug.'2_test', $post->ID);
     }
@@ -563,4 +569,3 @@ global $loop;
 $loop = 1;
 global $pickupNum;
 $pickupNum = 1;
-
