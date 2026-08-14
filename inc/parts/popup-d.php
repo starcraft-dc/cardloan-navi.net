@@ -70,7 +70,7 @@
         </h2>
 
         <div class="img">
-          <a href="<?= $linkMain ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($mainpost->ID)?>" alt="<?=get_the_title($mainpost->ID) ?>"></a>
+          <a href="<?= $linkMain ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($mainpost->ID)?>" alt="<?=get_the_title($mainpost->ID) ?>"></a>
         </div>
 
         <div class="button c-button -ranking">
@@ -102,10 +102,10 @@
         <?php endif; ?>
         
         <div class="img">
-          <a href="<?= $linkSub ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($subpost->ID)?>" alt="<?=get_the_title($subpost->ID) ?>"></a>
+          <a href="<?= $linkSub ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($subpost->ID)?>" alt="<?=get_the_title($subpost->ID) ?>"></a>
         </div>
         <div class="button c-button -ranking">
-          <a href="<?= $linkSub ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ"><?= get_the_title($subpost->ID) ?> 公式サイト</a>
+          <a href="<?= $linkSub ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ"><?= get_the_title($subpost->ID) ?> 公式サイト</a>
         </div>
         <p class="pagination">
           <span class="before" data-target="1">戻る</span>

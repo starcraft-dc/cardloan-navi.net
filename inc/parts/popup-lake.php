@@ -24,7 +24,7 @@
           </div>
 
           <div class="popup-button -lake c-button -lake -ranking -salmon">
-            <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><?= get_the_title($mainpost->ID) ?> 申し込み<img src="<?= esc_url( get_template_directory_uri() ); ?>/dist/images/icons/btn-sp-arrow.svg" alt="" class="btn-arrow"></a>
+            <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><?= get_the_title($mainpost->ID) ?> 申し込み<img src="<?= esc_url( get_template_directory_uri() ); ?>/dist/images/icons/btn-sp-arrow.svg" alt="" class="btn-arrow"></a>
           </div>
 
         </dd>
@@ -52,7 +52,7 @@
           </div>
 
           <div class="popup-button -mobit c-button -lake -ranking -mint">
-            <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
+            <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
               <?= get_the_title($subpost->ID) ?> 詳細はこちら<img src="<?= esc_url( get_template_directory_uri() ); ?>/dist/images/icons/btn-sp-arrow.svg" alt="" class="btn-arrow">
             </a>
           </div>

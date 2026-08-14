@@ -26,14 +26,14 @@
         ?>
 
         <div class="thumb">
-          <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
+          <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
           <img src="<?= get_the_post_thumbnail_url($subpost->ID) ?>" 
           alt="<?= esc_attr($subpost->post_title) ?>">
           </a>
         </div>
 
         <div class="button c-button -ranking -star">
-          <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
+          <a href="<?= get_link_param(['post_id' => $subpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($subpost->ID) ?>公式へ">
             <?= esc_html($subpost->post_title) ?>の<br class="u-device-sp">詳細はこちら
           </a>
         </div>
@@ -115,11 +115,11 @@
         ?>
 
         <div class="thumb">
-          <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($mainpost->ID)?>" alt="<?=get_the_title($mainpost->ID) ?>"></a>
+          <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ"><img src="<?=get_the_post_thumbnail_url($mainpost->ID)?>" alt="<?=get_the_title($mainpost->ID) ?>"></a>
         </div>
 
         <div class="button c-button -ranking -star">
-          <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= $class; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ">東京スター銀行の<br class="u-device-sp">詳細はこちら</a>
+          <a href="<?= get_link_param(['post_id' => $mainpost->ID]) ?>" class="<?= isset($class) ? $class : ""; ?>" target="_blank" aria-label="<?=get_the_title($mainpost->ID) ?>公式へ">東京スター銀行の<br class="u-device-sp">詳細はこちら</a>
         </div>
 
         <?php endif; ?>

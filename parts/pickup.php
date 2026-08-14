@@ -140,8 +140,11 @@
           endif;
 
         
-          if($pickup_objects == null) :
-            $pickup_objects = $rank_objects;
+          if(empty($pickup_objects)) :
+            $pickup_objects = (isset($rank_objects) && is_array($rank_objects)) ? $rank_objects : [];
+          endif;
+          if(!is_array($pickup_objects)) :
+            $pickup_objects = [];
           endif;
 
 

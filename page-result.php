@@ -57,6 +57,20 @@
     
     $ranking_field = determineRankingField();
 		$result_posts = get_field($ranking_field, 3981);
+
+		// ad パラメータ専用のランキングが未設定の場合はデフォルトランキングへフォールバック
+		if (empty($result_posts) || !is_array($result_posts)) {
+			$result_posts = get_field('ranking-obj-result', 3981);
+		}
+		if (!is_array($result_posts)) {
+			$result_posts = [];
+		}
+
+		// ACFのフィールド定義が消えて投稿ID配列のまま残っている ad 用ランキングを投稿オブジェクトへ揃える
+		$result_posts = array_values(array_filter(array_map(function ($item) {
+			return is_object($item) ? $item : get_post($item);
+		}, $result_posts)));
+
 		$metaquerysp = [];
     function includePopup($post, $targetId, $filename) {
         // 投稿データが存在し、IDが一致する場合のみインクルード
@@ -218,8 +232,8 @@
 
     $the_query = new WP_Query( $args );
 
+		$itemCount = 0;
 		if (!empty($result_posts) && is_array($result_posts)) {
-			$itemCount = 0;
 			foreach ($result_posts as $result_item) {
 				if ($result_item && isset($result_item->post_status) && $result_item->post_status === 'publish') {
 					$itemCount++;
