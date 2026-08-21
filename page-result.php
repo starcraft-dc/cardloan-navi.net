@@ -80,6 +80,7 @@
     }
 
     $popupFiles = [
+        2605 => 'popup-au.php',    // auじぶん銀行カードローン
         4134 => 'popup-star.php',  // 東京スター銀行
         472  => 'popup-d.php',     // プロミス
         122  => 'popup-lake.php'   // レイク

@@ -148,7 +148,7 @@ const jsMinify = () => {
 };
 
 
-export { stylesLink };
+export { stylesLink, styles, jsMinify, imageNew };
 
 
 const watchFile = () => {

@@ -281,6 +281,13 @@ function get_popup_link($is_table_btn = false, $is_no_sub_btn = false) {
       'class' => 'js-popup',
       'attributes' => ''
     ],
+    2605 => [
+      'class' => 'js-popup-au',
+      'attributes' => '',
+      // ポップアップ未読込のテンプレートでもリンクが死なないよう href は残す
+      // （JS 側 auPopup() が preventDefault で遷移を止める）
+      'keep_href' => true
+    ],
     4134 => [
       'class' => 'star-popup',
       'attributes' => ' v-on:click="clickedStarPopup"'  // @click을 v-on:click으로 변경
@@ -294,6 +301,16 @@ function get_popup_link($is_table_btn = false, $is_no_sub_btn = false) {
 
   if(isset($special_cases[get_the_ID()])) {
     $case = $special_cases[get_the_ID()];
+    if(!empty($case['keep_href'])) {
+      return sprintf(
+        '<a href="%s" class="%s %s" target="_blank" rel="noopener" aria-label="%s"%s>',
+        esc_url(get_link_param_new()),
+        $case['class'],
+        $final_class,
+        esc_attr($aria_label),
+        $case['attributes']
+      );
+    }
     return sprintf(
       '<a class="%s %s"%s>',
       $case['class'],

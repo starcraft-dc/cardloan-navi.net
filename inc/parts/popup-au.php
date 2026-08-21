@@ -16,7 +16,7 @@
 
       <li data-content="1" class="active">
 
-        <h2 class="title">※お申込みの前に<br class="u-device-sp">ご確認ください※</h2>
+        <h2 class="title">※お申込みの前にご確認ください※</h2>
 
         <div class="popup-au__body">
 
@@ -52,13 +52,10 @@
 
         </div><!-- /.popup-au__body -->
 
-        <div class="button c-button -ranking">
-          <a href="<?= esc_url($auLink) ?>" target="_blank" rel="noopener" aria-label="<?= esc_attr($auTitle) ?>公式へ">確認して進む</a>
+        <div class="popup-au__nav">
+          <button type="button" class="popup-au__back js-popup-close-au">&larr;&nbsp;戻る</button>
+          <a class="popup-au__next prrrr" href="<?= esc_url($auLink) ?>" target="_blank" rel="noopener" aria-label="<?= esc_attr($auTitle) ?>公式へ">進む&nbsp;&rarr;</a>
         </div>
-
-        <p class="pagination">
-          <span class="js-popup-close-au">閉じる</span>
-        </p>
 
       </li>
 
