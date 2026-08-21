@@ -482,6 +482,7 @@
         margin-bottom: 1.4rem;
         @include mq(pc) {
           font-size: 1.7rem;
+          padding: 1.4rem 0;   // 基底 h2 は PC で padding:0 のため上下余白を戻す
           margin-bottom: 2rem;
         }
       }
