@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	TimeDisplay.init();
 	switchViewport();
 	if (document.querySelector('.js-popup-ctt.-d')) dsmartPopup();
+	if (document.querySelector('.js-popup-ctt.-au')) auPopup();
 	if(document.querySelector('#section-modoru .modoru-group')) modoru();
 	accordion();
 	countdown();
@@ -122,6 +123,28 @@ function dsmartPopup() {
     });
   });
 
+}
+
+function auPopup() {
+  const auPopupCtt = document.querySelector('.js-popup-ctt.-au');
+  if (!auPopupCtt) return;
+
+  const auButtons = document.querySelectorAll('.js-popup-au');
+  const closeBtn = auPopupCtt.querySelector('.js-popup-ctt__close.-au');
+  const closeTexts = auPopupCtt.querySelectorAll('.js-popup-close-au');
+
+  const closeAuPopup = () => auPopupCtt.classList.remove('open');
+
+  // CTAボタンクリック → 即リダイレクトせずポップアップ表示
+  auButtons.forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      auPopupCtt.classList.add('open');
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeAuPopup);
+  closeTexts.forEach(el => el.addEventListener('click', closeAuPopup));
 }
 
 function toRanking() {
