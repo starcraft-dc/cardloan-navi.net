@@ -559,6 +559,8 @@ function get_con_img($val) {
     return '<img src="'.esc_url(get_template_directory_uri()).'/images/icons/rank/con-k.svg" alt="" width="20" height="20" loading="lazy" />';
   } elseif($val == 'サンクス') {
     return '<img src="'.esc_url(get_template_directory_uri()).'/images/icons/rank/con-sunkus.svg" alt="" width="20" height="20" loading="lazy" />';
+  } elseif($val == 'e-net') {
+    return '<img src="'.esc_url(get_template_directory_uri()).'/images/icons/rank/con-enet.svg" alt="" width="20" height="20" loading="lazy" />';
   } else {
     return '';
   }

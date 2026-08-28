@@ -422,7 +422,7 @@
 
 						<?php if(!has_tag('ボタン文言なし')) : ?>
 							<p class="small btn-text">
-								<span><span class="red bold">最短5分</span>で申込完了！</span>
+								<span><span class="red bold"><?= $ufj ? 'Webで' : '最短5分' ?></span><?= $ufj ? '' : 'で' ?>申込完了！</span>
 							</p>
 						<?php endif; ?>
 
