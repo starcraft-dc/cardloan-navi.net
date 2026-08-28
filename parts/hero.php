@@ -16,14 +16,18 @@
             $fv_v2_sp_file = 'fv-v2-' . $fv_v2_items . '-sp.webp';
             $fv_v2_pc_url = add_query_arg( 'ver', filemtime( $fv_v2_asset_dir . $fv_v2_pc_file ), $fv_v2_asset_url . $fv_v2_pc_file );
             $fv_v2_sp_url = add_query_arg( 'ver', filemtime( $fv_v2_asset_dir . $fv_v2_sp_file ), $fv_v2_asset_url . $fv_v2_sp_file );
+            $fv_pc_file = 'fv-new-pc-rs_2.webp';
+            $fv_sp_file = 'fv-new-sp-rs_2.webp';
+            $fv_pc_url = add_query_arg( 'ver', filemtime( $fv_v2_asset_dir . $fv_pc_file ), $fv_v2_asset_url . $fv_pc_file );
+            $fv_sp_url = add_query_arg( 'ver', filemtime( $fv_v2_asset_dir . $fv_sp_file ), $fv_v2_asset_url . $fv_sp_file );
           ?>
           <picture>
             <?php if($is_fv_v2) : ?>
               <source srcset="<?= esc_url( $fv_v2_sp_url ); ?>" media="(max-width: 767px)">
               <img src="<?= esc_url( $fv_v2_pc_url ); ?>" alt="本当におすすめの銀行系＆消費者金融カードローン<?= esc_attr( $fv_v2_items ); ?>選" width="1279" height="597" fetchpriority="high">
             <?php else : ?>
-              <source srcset="<?= esc_url( get_template_directory_uri() ); ?>/assets/dist/front/fv-new-sp-rs_2.webp" media="(max-width: 767px)">
-			        <img src="<?= esc_url( get_template_directory_uri() ); ?>/assets/dist/front/fv-new-pc-rs_2.webp" alt="" width="978" height="457" fetchpriority="high">
+              <source srcset="<?= esc_url( $fv_sp_url ); ?>" media="(max-width: 767px)">
+			        <img src="<?= esc_url( $fv_pc_url ); ?>" alt="" width="978" height="457" fetchpriority="high">
             <?php endif; ?>
           </picture>
           <?php if($is_fv_v2) : ?>
