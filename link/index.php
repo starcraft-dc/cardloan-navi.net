@@ -14,16 +14,16 @@
   // 2026-09-18: num は ad=gkw に依存しない。?num=001 だけで切替可能。
   // 許可番号のホワイトリストは廃止し、ACF フィールドの有無で有効/無効が決まる。
   // 従来の ?ad=gkw&num=001 もそのまま動作する(後方互換)。
-  $gkw_num = get_gkw_campaign_num(null, $page_param === 'bank');
+  // 銀行ページ専用の番号(url-bank_gkw_*)も廃止し、url-gkw_* の一系統に統合した。
+  // 番号帯はもともと 001〜010=消費者金融 / 011〜016=銀行 で分かれており、
+  // 統合しても値の衝突は発生しない(移行時に全件確認済み)。
+  $gkw_num = get_gkw_campaign_num();
+  $gkw_link = $gkw_num !== '' ? get_field('url-gkw_'.$gkw_num, $postID) : '';
 
   
   if($page_param !== '') {
     $page_link = get_field('url-'.$page_param, $postID);
     $link = !empty($page_link) ? $page_link : $link;
-
-    $gkw_link = ($gkw_num !== '' && $page_param === 'bank')
-      ? get_field('url-bank_gkw_'.$gkw_num, $postID)
-      : '';
     $ad_link = $ad_param !== '' ? get_field('url-'.$page_param.'_'.$ad_param, $postID) : '';
 
     if(!empty($gkw_link)) {
@@ -32,7 +32,6 @@
       $link = $ad_link;
     }
   } elseif ($gkw_num !== '' || $ad_param !== '') {
-    $gkw_link = $gkw_num !== '' ? get_field('url-gkw_'.$gkw_num, $postID) : '';
     $ad_link = $ad_param !== '' ? get_field('url-'.$ad_param, $postID) : '';
 
     if(!empty($gkw_link)) {

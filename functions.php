@@ -167,7 +167,7 @@ function get_icon_maru($data) {
   return 'icon-maru_'.$data.'.svg';
 }
 
-function get_gkw_campaign_num($value = null, $is_bank = null) {
+function get_gkw_campaign_num($value = null) {
   if ($value === null) {
     if (!isset($_GET['num']) || is_array($_GET['num'])) {
       return '';
@@ -185,10 +185,11 @@ function get_gkw_campaign_num($value = null, $is_bank = null) {
   }
 
   // 2026-09-18: 許可番号のホワイトリストを廃止。
-  // 番号の有効/無効は ACF フィールド(url-gkw_{num} / url-bank_gkw_{num})の
-  // 存在で決まるため、番号追加のたびにコードを直す必要が無くなる。
+  // 番号の有効/無効は ACF フィールド url-gkw_{num} の存在で決まるため、
+  // 番号追加のたびにコードを直す必要が無くなる。
+  // 銀行ページ専用の url-bank_gkw_* も廃止し url-gkw_* に統合したため、
+  // 銀行かどうかの判定は不要になった。
   // 未定義の番号は従来どおり静かに既定リンクへフォールバックする。
-  // $is_bank は後方互換のため引数だけ残す(判定には使わない)。
   return str_pad($value, 3, '0', STR_PAD_LEFT);
 }
 
@@ -212,7 +213,7 @@ function get_link_param($args = []) {
     $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
   }
   // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ(?num=001 だけで切替可能)
-  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  $gkw_num = get_gkw_campaign_num();
   if ($gkw_num !== '') {
     $params['num'] = $gkw_num;
   }
@@ -238,7 +239,7 @@ function get_link_param_new($args = []) {
     $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
   }
   // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ(?num=001 だけで切替可能)
-  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  $gkw_num = get_gkw_campaign_num();
   if ($gkw_num !== '') {
     $params['num'] = $gkw_num;
   }
@@ -384,8 +385,7 @@ function pageLinkParameter() {
   }
 
   // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ
-  $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
-  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  $gkw_num = get_gkw_campaign_num();
   if ($gkw_num !== '') {
     $params['num'] = $gkw_num;
   }

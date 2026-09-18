@@ -23,7 +23,7 @@
             <input type="hidden" name="ad" value="<?php echo $_GET['ad']; ?>">
           <?php endif; ?>
           <?php // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ ?>
-          <?php $gkw_num = get_gkw_campaign_num(null, is_page('bank-cardloan') || is_page('bank') || isset($_GET['bank'])); ?>
+          <?php $gkw_num = get_gkw_campaign_num(); ?>
           <?php if ($gkw_num !== '') : ?>
             <input type="hidden" name="num" value="<?= esc_attr($gkw_num) ?>">
           <?php endif; ?>
