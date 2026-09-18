@@ -184,16 +184,12 @@ function get_gkw_campaign_num($value = null, $is_bank = null) {
     return '';
   }
 
-  $number = str_pad($value, 3, '0', STR_PAD_LEFT);
-  if ($is_bank === true) {
-    $allowed_numbers = array('008', '009', '011', '012', '013', '014', '015', '016');
-  } elseif ($is_bank === false) {
-    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010');
-  } else {
-    $allowed_numbers = array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013', '014', '015', '016');
-  }
-
-  return in_array($number, $allowed_numbers, true) ? $number : '';
+  // 2026-09-18: 許可番号のホワイトリストを廃止。
+  // 番号の有効/無効は ACF フィールド(url-gkw_{num} / url-bank_gkw_{num})の
+  // 存在で決まるため、番号追加のたびにコードを直す必要が無くなる。
+  // 未定義の番号は従来どおり静かに既定リンクへフォールバックする。
+  // $is_bank は後方互換のため引数だけ残す(判定には使わない)。
+  return str_pad($value, 3, '0', STR_PAD_LEFT);
 }
 
 
@@ -214,12 +210,11 @@ function get_link_param($args = []) {
   } 
   if (isset($_GET['ad']) && !is_array($_GET['ad'])) {
     $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
-    if ($params['ad'] === 'gkw') {
-      $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
-      if ($gkw_num !== '') {
-        $params['num'] = $gkw_num;
-      }
-    }
+  }
+  // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ(?num=001 だけで切替可能)
+  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  if ($gkw_num !== '') {
+    $params['num'] = $gkw_num;
   }
   $url = home_url('/link?' . http_build_query($params));
   
@@ -241,12 +236,11 @@ function get_link_param_new($args = []) {
   }
   if (isset($_GET['ad']) && !is_array($_GET['ad'])) {
     $params['ad'] = sanitize_key(wp_unslash($_GET['ad']));
-    if ($params['ad'] === 'gkw') {
-      $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
-      if ($gkw_num !== '') {
-        $params['num'] = $gkw_num;
-      }
-    }
+  }
+  // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ(?num=001 だけで切替可能)
+  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  if ($gkw_num !== '') {
+    $params['num'] = $gkw_num;
   }
 
   $url = home_url('/link?' . http_build_query($params));
@@ -389,12 +383,11 @@ function pageLinkParameter() {
     }
   }
 
-  if (($params['ad'] ?? '') === 'gkw') {
-    $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
-    $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
-    if ($gkw_num !== '') {
-      $params['num'] = $gkw_num;
-    }
+  // 2026-09-18: num は ad=gkw が無くても単独で引き継ぐ
+  $is_bank_context = is_page('bank') || is_page('bank-cardloan') || isset($_GET['bank']);
+  $gkw_num = get_gkw_campaign_num(null, $is_bank_context);
+  if ($gkw_num !== '') {
+    $params['num'] = $gkw_num;
   }
 
   return $params ? '?' . http_build_query($params) : '';

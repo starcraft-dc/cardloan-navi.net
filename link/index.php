@@ -11,33 +11,29 @@
   $sup = get_field('sup-button', $postID);
   $page_param = isset($_GET['pg']) && !is_array($_GET['pg']) ? sanitize_key(wp_unslash($_GET['pg'])) : '';
   $ad_param = isset($_GET['ad']) && !is_array($_GET['ad']) ? sanitize_key(wp_unslash($_GET['ad'])) : '';
-  $gkw_num = $ad_param === 'gkw' ? get_gkw_campaign_num(null, $page_param === 'bank') : '';
+  // 2026-09-18: num は ad=gkw に依存しない。?num=001 だけで切替可能。
+  // 許可番号のホワイトリストは廃止し、ACF フィールドの有無で有効/無効が決まる。
+  // 従来の ?ad=gkw&num=001 もそのまま動作する(後方互換)。
+  $gkw_num = get_gkw_campaign_num(null, $page_param === 'bank');
 
   
   if($page_param !== '') {
     $page_link = get_field('url-'.$page_param, $postID);
     $link = !empty($page_link) ? $page_link : $link;
-    if($ad_param !== '') {
-      $gkw_field_name = $page_param === 'bank' && in_array($gkw_num, array('008', '009', '011', '012', '013', '014', '015', '016'), true)
-        ? 'url-bank_gkw_'.$gkw_num
-        : '';
-      $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
-      $ad_link = get_field('url-'.$page_param.'_'.$ad_param, $postID);
 
-      if(!empty($gkw_link)) {
-        $link = $gkw_link;
-      } elseif(!empty($ad_link)) {
-        $link = $ad_link;
-      } else {
-        $link = !empty($page_link) ? $page_link : $link;
-      }
-    }
-  } elseif ($ad_param !== '') {
-    $gkw_field_name = in_array($gkw_num, array('001', '002', '003', '004', '005', '006', '007', '008', '009', '010'), true)
-      ? 'url-gkw_'.$gkw_num
+    $gkw_link = ($gkw_num !== '' && $page_param === 'bank')
+      ? get_field('url-bank_gkw_'.$gkw_num, $postID)
       : '';
-    $gkw_link = $gkw_field_name !== '' ? get_field($gkw_field_name, $postID) : '';
-    $ad_link = get_field('url-'.$ad_param, $postID);
+    $ad_link = $ad_param !== '' ? get_field('url-'.$page_param.'_'.$ad_param, $postID) : '';
+
+    if(!empty($gkw_link)) {
+      $link = $gkw_link;
+    } elseif(!empty($ad_link)) {
+      $link = $ad_link;
+    }
+  } elseif ($gkw_num !== '' || $ad_param !== '') {
+    $gkw_link = $gkw_num !== '' ? get_field('url-gkw_'.$gkw_num, $postID) : '';
+    $ad_link = $ad_param !== '' ? get_field('url-'.$ad_param, $postID) : '';
 
     if(!empty($gkw_link)) {
       $link = $gkw_link;
