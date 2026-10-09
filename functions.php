@@ -431,6 +431,10 @@ function get_rank_obj() {
   if(!is_front_page()) {
     $rank_obj = get_field("ranking", $post->ID);
     $rank_obj2 = get_field("ranking-".$slug.'2', $post->ID);
+    // 銀行v2(bank-cardloan) の ?v=2 は ranking_v2 を使う(未入力ならデフォルトの ranking)
+    if($slug === 'bank-cardloan' && $rank_version === '2') {
+      $rank_obj = get_field("ranking_v2", $post->ID) ?: $rank_obj;
+    }
     if(isset($_GET['test'])) {
       $rank_obj = get_field("ranking_test", $post->ID);
     }
