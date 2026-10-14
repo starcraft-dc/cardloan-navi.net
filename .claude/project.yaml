@@ -1,0 +1,18 @@
+id: rs-cardloan-navi
+name: RS カードローン：ナビ
+type: existing-repo
+root: $WORK/01 CARDLOAN_琉球/cardloan
+status: active
+aliases: [카드론나비, カードローンナビ, cardloan-navi, RS카드론]
+urls:
+  production: https://cardloan-navi.net
+profiles: [existing-repo]
+paths:
+  theme: .
+design_root: $DESIGN/08 カードローン/RS
+ssh_host: car-lease8
+traps:
+  - gulpfile.js 존재 = FTP watch 배포. scp 로 직접 올리지 않는다
+  - card 계열 캐시 — wp_cache_flush() 는 APCu 에서 Fatal. WP-CLI 자체가 fatal 나면 supercache 파일 직접 삭제로 처리
+  - Xserver 페이지 캐시가 옛 HTML 을 돌려줘 검증을 속인다. 쿼리 없는 URL 로도 확인
+  - repo CLAUDE.md 의 SERVER 표기는 未検証 주석이 붙어 있다 — ssh alias 를 실측한 뒤 쓴다
