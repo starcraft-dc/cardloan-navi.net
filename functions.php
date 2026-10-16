@@ -478,6 +478,10 @@ function renderTag($val, $isActive = false, $postId = null) {
     if($dSmart) {
       $tagText .= '<small class="small">※3</small>';
     }
+    // アコム: 審査時間・融資時間と同じ※1を付ける
+    if($postId == 45) {
+      $tagText .= '<small class="small">※1</small>';
+    }
   }
 
   if($val == '無利息期間あり') {
