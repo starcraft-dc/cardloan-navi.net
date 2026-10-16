@@ -36,12 +36,12 @@
 
 <!-- 2024 04 09 追加 -->
 <?php function tableMaru($data) {
-  if($data <= 3) {
-    echo 'style="background-image:url('.esc_url( get_template_directory_uri()).'/images/icons/maru-01.svg)" data-icon="maru"';
-  }elseif($data <= 7) {
-    echo 'style="background-image:url('.esc_url( get_template_directory_uri()).'/images/icons/maru-02.svg)" data-icon="maru"';
-  }elseif($data == 16) {
+  if($data === '' || $data === null || (int)$data === 21) {
     echo '';
+  } elseif((int)$data <= 9) {
+    echo 'style="background-image:url('.esc_url( get_template_directory_uri()).'/images/icons/maru-01.svg)" data-icon="maru"';
+  }elseif((int)$data <= 13) {
+    echo 'style="background-image:url('.esc_url( get_template_directory_uri()).'/images/icons/maru-02.svg)" data-icon="maru"';
   }else {
     echo 'style="background-image:url('.esc_url( get_template_directory_uri()).'/images/icons/maru-03.svg)" data-icon="maru"';
   }
@@ -49,6 +49,14 @@
 ?>
 
 <?php
+
+function cardloan_rank_table_speed_text($field_name, $hide_migrated_note = false) {
+  $rank_table = get_field('rank-table');
+  $text = is_array($rank_table) ? ($rank_table[$field_name] ?? '') : '';
+  return $hide_migrated_note
+    ? preg_replace('/<small class="small speed-note">.*?<\\/small>/', '', $text)
+    : $text;
+}
 
 function limit($data, $prefix = '最大') {
   if($data == 1) {
@@ -162,4 +170,3 @@ function sTimeN($data) {
 <?php else : ?>
   <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/dist/images/icons/maru-4.svg" alt="">
 <?php endif; } ?>
-
